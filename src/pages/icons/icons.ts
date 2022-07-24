@@ -1,0 +1,12 @@
+export const ethIcon = require('../../assets/icons/eth.png');
+export const bnbIcon = require('../../assets/icons/bnb.png');
+export const maticICon = require('../../assets/icons/matic.png');
+export const gnosisIcon = require('../../assets/icons/gnosis.png');
+export const cdaiIcon = require('../../assets/icons/cdai.png');
+export const daiIcon = require('../../assets/icons/dai.png');
+export const usdcIcon = require('../../assets/icons/usdc.png');
+export const usdtIcon = require('../../assets/icons/usdt.png');
+export const wbtcIcon = require('../../assets/icons/wbtc.png');
+export const workIcon = require('../../assets/icons/work.png');
+export const relayerIcon = require('../../assets/icons/relayer.png');
+export const mbLogo = require('../../assets/png/mb_logo.png');

@@ -1,0 +1,235 @@
+.web_wrap {
+  height: 100vh;
+  overflox-y: auto;
+}
+.web_wrap .language_selector {
+  width: 88px;
+  height: 88px;
+  padding: 26px 20px;
+  color: #fff;
+}
+.web_wrap .web_header {
+  width: 100%;
+  height: 88px;
+  background-color: #111826;
+  flex-shrink: 0;
+}
+.web_wrap .web_header .header {
+  width: 1200px;
+  margin: auto;
+}
+.web_wrap .web_header .header .l .logo {
+  font-size: 26px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 88px;
+  cursor: pointer;
+}
+.web_wrap .web_header .header .l .nav {
+  padding-left: 60px;
+}
+.web_wrap .web_header .header .l .nav .nav_item {
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 88px;
+  margin: 0 40px;
+  cursor: pointer;
+}
+.web_wrap .web_header .header .l .nav .nav_item::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  margin-top: -3px;
+  background: rgba(0, 0, 0, 0);
+}
+.web_wrap .web_header .header .l .nav .nav_item.active:after {
+  background: linear-gradient(90deg, #F3731B, #F02D50);
+}
+.web_wrap .web_header .header .r .wallet_connect {
+  width: 200px;
+  height: 48px;
+  line-height: 48px;
+  background-color: #29303C;
+  border-radius: 24px;
+  text-align: center;
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+.web_wrap .web_content {
+  width: 100%;
+  flex: 1;
+  flex-shrink: 0;
+  overflow: auto;
+  background-color: #070B15;
+}
+.web_wrap .web_content .tr_footer {
+  width: 100%;
+  margin-top: 100px;
+  background: #111826;
+}
+.web_wrap .web_content .tr_footer .tr_footer_content {
+  width: 1200px;
+  height: 120px;
+  margin: auto;
+}
+.web_wrap .web_content .tr_footer .tr_footer_content .title {
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+.web_wrap .web_content .tr_footer .tr_footer_content .contact_us .icon {
+  cursor: pointer;
+}
+.web_wrap .web_content .tr_footer .tr_footer_content .contact_us .icon:hover {
+  opacity: 0.6;
+}
+.web_wrap .web_content .mb_tr_footer {
+  width: 10rem;
+  height: 3.33rem;
+  padding: 0 0.7rem 1.5rem 1rem;
+  background-color: #111826;
+}
+.web_wrap .mb_web_header_wrap {
+  background-color: #070B15;
+}
+.web_wrap .mb_web_header_wrap .mb_web_header {
+  width: 10rem;
+  padding: 0.23rem 0.27rem 0.23rem 0.47rem;
+  background-color: #070B15;
+}
+.web_wrap .mb_web_header_wrap .mb_web_header .logo {
+  width: 0.6rem;
+}
+.web_wrap .mb_web_header_wrap .mb_web_header .m_wallet_connect {
+  color: #fff;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  border-radius: 0.4rem;
+  padding: 0 0.32rem;
+  background-color: #29303C;
+  font-size: 0.32rem;
+  font-weight: bold;
+}
+.web_wrap .mb_web_header_wrap .mb_web_nav {
+  background-color: #111826;
+  padding: 0 0.35rem;
+}
+.web_wrap .mb_web_header_wrap .mb_web_nav .mb_nav .nav_item {
+  display: inline-block;
+  line-height: 1.17rem;
+  font-size: 0.45rem;
+  font-family: sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-right: 0.68rem;
+  position: relative;
+}
+.web_wrap .mb_web_header_wrap .mb_web_nav .mb_nav .nav_item.active::after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 0.08rem;
+  background: linear-gradient(90deg, #F3731B, #F02D50);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.trc_dialog.menu_dialog .title {
+  margin: 20px 0;
+}
+.trc_dialog.connect_dialog {
+  background: #111826;
+  margin-top: -10px;
+}
+.trc_dialog.connect_dialog .sub_title {
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 5px;
+}
+.trc_dialog.connect_dialog .sub_title_guide {
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.trc_dialog.connect_dialog .wallet_row {
+  width: 413px;
+  height: 50px;
+  line-height: 50px;
+  background: #29303C;
+  border-radius: 4px;
+  padding: 0 25px;
+  margin: 15px auto;
+  cursor: pointer;
+}
+.trc_dialog.connect_dialog .wallet_row:hover {
+  background: #373D49;
+}
+.trc_dialog.connect_dialog .wallet_row .wallet_row_title {
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: #FFFFFF;
+  line-height: 50px;
+  margin: 0;
+}
+.trc_dialog.connect_dialog .wallet_row_title_warn {
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 50px;
+  margin: 0;
+}
+.trc_dialog.connect_dialog .wallet_account {
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 24px 0;
+  text-align: center;
+}
+.trc_dialog.connect_dialog .btns .text_btn {
+  color: #F3731B;
+  cursor: pointer;
+  margin-left: 15px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.trc_dialog.connect_dialog .logout_btn_wrap {
+  text-align: center;
+  padding-top: 30px;
+}
+.trc_dialog.connect_dialog .logout_btn_wrap .logout_btn {
+  width: 300px;
+  height: 44px;
+  line-height: 36px;
+  cursor: pointer;
+  background-color: #29303C;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  border: none;
+  background: linear-gradient(90deg, #F3731B, #F02D50);
+  color: #fff;
+}
+/*# sourceMappingURL=Header.css.map */

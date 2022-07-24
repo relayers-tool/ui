@@ -1,0 +1,30 @@
+.ant-modal.torndo_dialog {
+  color: #fff;
+  padding: 0 20px 20px;
+  background: #111826;
+}
+.ant-modal.torndo_dialog .ant-modal-content {
+  background: none;
+  box-shadow: none;
+}
+.ant-modal.torndo_dialog .ant-modal-content .ant-modal-header {
+  color: #fff;
+  padding: 3px 0;
+  background: none;
+  border-bottom-color: #2A2F3B;
+}
+.ant-modal.torndo_dialog .ant-modal-content .ant-modal-header .ant-modal-title {
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 56px;
+}
+.ant-modal.torndo_dialog .ant-modal-content .ant-modal-close {
+  color: #fff;
+  top: 4px;
+}
+.ant-modal.torndo_dialog .ant-modal-content .ant-modal-body {
+  padding: 0;
+}
+/*# sourceMappingURL=index.css.map */
