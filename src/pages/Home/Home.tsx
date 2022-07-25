@@ -54,11 +54,12 @@ const Home: FC = () => {
 
     const [showCancel, setShowCancel] = useState(false);
     const {account} = useWeb3React();
-
+    const exitContract = useExitQueueContract();
+    const exitQueueContract = useExitQueueContract();
     const cancelQueue = async () => {
         setShowCancel(true);
-        const GET_EXIT_CONTRACT = useExitQueueContract();
-        GET_EXIT_CONTRACT.methods.cancelQueue()
+
+        exitQueueContract.methods.cancelQueue()
             .send({from: account})
             .on('receipt', async (receipt: any) => {
                 setShowCancel(false);
@@ -75,7 +76,7 @@ const Home: FC = () => {
 
     const claimQueue = async () => {
         setShowCancel(true);
-        const exitContract = useExitQueueContract();
+
         exitContract.methods.claim()
             .send({from: account})
             .on('receipt', async (receipt: any) => {
@@ -137,7 +138,7 @@ const Home: FC = () => {
                                         ?
                                         <p className='flexrsc'>
                                             <span
-                                                className='num'>{formatUnits(exit_queue_info.is_prepared ? exit_queue_info.user_value : rootToken2Torn(exit_queue_info.user_value))}</span>TORN
+                                                className='num'>{formatUnits(exit_queue_info.is_prepared ? exit_queue_info.user_value : rootToken2Torn(exit_queue_info.user_value))} TORN</span>
                                             {
                                                 exit_queue_info.is_prepared
                                                     ? <span className='text_btn'
