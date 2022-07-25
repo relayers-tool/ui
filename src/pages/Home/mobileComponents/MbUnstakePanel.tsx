@@ -3,7 +3,7 @@ import {Button, InputNumber, message, Tooltip} from 'antd'
 import {BigNumber} from "ethers";
 import HelpIcon from "../../icons/HelpIcon";
 import useIntl from "../../../utils/useIntl";
-import {getDepositContract, getExitQueueContract, mDeposit,} from "../../../Web3";
+import {useDepositContract, useExitQueueContract, mDeposit,} from "../../../Web3";
 
 import TorndoDialog from "../../components/TorndoDialog/TorndoDialog";
 import {useWeb3React} from "@web3-react/core";
@@ -69,7 +69,7 @@ const MbUnstakePanel: FC = () => {
     })
   }, 1000);
 
-  const depositContract = getDepositContract();
+  const depositContract = useDepositContract();
 
   const withDraw1 = async (bigNumStr: string) => {
 
@@ -121,7 +121,7 @@ const MbUnstakePanel: FC = () => {
     queryInfo();
   }
 
-  const exitQueueContract = getExitQueueContract();
+  const exitQueueContract = useExitQueueContract();
 
   const addQueueExe = async (bigNumStr: string) => {
     return new Promise(async resolve => {

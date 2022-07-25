@@ -75,25 +75,25 @@ export const addressBook = {
 
 
 //
-export const getTokenContract = () => {
+export const useTokenContract = () => {
     const web3 = GetWeb3Account()
     const contract = new web3.eth.Contract(ERC20_ABI as unknown as AbiItem, addressBook.tornToken)
     return contract
 }
 
-export const getRootDBContract = () => {
+export const useRootDBContract = () => {
     const web3 = GetWeb3Account();
     const contract = new web3.eth.Contract((RootDb_ABI.abi as unknown) as AbiItem, addressBook.mRootDb);
     return contract;
 }
 
-export const getDepositContract = () => {
+export const useDepositContract = () => {
     const web3 = GetWeb3Account();
     const contract = new web3.eth.Contract((Deposit_ABI.abi as unknown) as AbiItem, addressBook.mDeposit);
     return contract;
 }
 
-export const getExitQueueContract = () => {
+export const useExitQueueContract = () => {
     const web3 = GetWeb3Account();
     const contract = new web3.eth.Contract((ExitQueue_ABI.abi as unknown) as AbiItem, addressBook.mExitQueue);
     return contract;
@@ -156,7 +156,7 @@ const Web3Test: FC = () => {
     const {login} = useAuth();
     const {account} = useAccount();
 
-    const rootDBContract = getRootDBContract();
+    const rootDBContract = useRootDBContract();
 
 
     const connectWallet = () => {
@@ -170,7 +170,7 @@ const Web3Test: FC = () => {
     }
 
 
-    const depositContract = getDepositContract();
+    const depositContract = useDepositContract();
     const stakeWithApprove = async () => {
         const res = await signERC2612Permit(web3Provider, addressBook.tornToken, (account as string), (addressBook.mDeposit as string), toTokenDecimals(1.2).toString())
 

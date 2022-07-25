@@ -5,7 +5,7 @@ import {formatUnits} from "../../utils/common";
 import LoadingIcon from "../icons/LoadingIcon";
 import {BigNumber} from "ethers";
 
-import {getExitQueueContract,} from "../../Web3";
+import {useExitQueueContract,} from "../../Web3";
 import {useWeb3React} from "@web3-react/core";
 
 import {message, Tooltip} from "antd";
@@ -17,6 +17,7 @@ const PersonalCard: FC = () => {
     const {user_info, queryInfo, token_price, exit_queue_info} = useContext(StoreContext);
     const {account} = useWeb3React();
 
+    const exitContract = useExitQueueContract();
     const rootToken2Torn = (mun: BigNumber) => {
         if (token_price.eq(0)) {
             return BigNumber.from(0);
@@ -28,7 +29,6 @@ const PersonalCard: FC = () => {
 
     const cancelQueue = async () => {
         setShowCancel(true);
-        const exitContract = getExitQueueContract();
         exitContract.methods.cancelQueue()
             .send({from: account})
             .on('receipt', async (receipt: any) => {
@@ -46,7 +46,6 @@ const PersonalCard: FC = () => {
 
     const claimQueue = async () => {
         setShowCancel(true);
-        const exitContract = getExitQueueContract();
         exitContract.methods.claim()
             .send({from: account})
             .on('receipt', async (receipt: any) => {

@@ -17,7 +17,7 @@ import CloseIcon from "../icons/CloseIcon";
 import {formatUnits} from "../../utils/common";
 import {BigNumber} from "ethers";
 import LoadingIcon from "../icons/LoadingIcon";
-import {getExitQueueContract} from "../../Web3";
+import {useExitQueueContract} from "../../Web3";
 import {useWeb3React} from "@web3-react/core";
 import PersonIcon from "../icons/PersonIcon";
 import QuotesIcon from "../icons/QuotesIcon";
@@ -57,7 +57,7 @@ const Home: FC = () => {
 
     const cancelQueue = async () => {
         setShowCancel(true);
-        const GET_EXIT_CONTRACT = getExitQueueContract();
+        const GET_EXIT_CONTRACT = useExitQueueContract();
         GET_EXIT_CONTRACT.methods.cancelQueue()
             .send({from: account})
             .on('receipt', async (receipt: any) => {
@@ -75,7 +75,7 @@ const Home: FC = () => {
 
     const claimQueue = async () => {
         setShowCancel(true);
-        const exitContract = getExitQueueContract();
+        const exitContract = useExitQueueContract();
         exitContract.methods.claim()
             .send({from: account})
             .on('receipt', async (receipt: any) => {

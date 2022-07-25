@@ -3,7 +3,7 @@ import {Button, InputNumber, message, Tooltip} from 'antd'
 import {BigNumber} from "ethers";
 import HelpIcon from "../icons/HelpIcon";
 import useIntl from "../../utils/useIntl";
-import {getDepositContract, getExitQueueContract, mDeposit,} from "../../Web3";
+import {useDepositContract, useExitQueueContract, mDeposit,} from "../../Web3";
 import TorndoDialog from "../components/TorndoDialog/TorndoDialog";
 import {useWeb3React} from "@web3-react/core";
 import {formatUnits, StringtoTokenDecimals, toTokenDecimals} from "../../utils/common";
@@ -22,7 +22,8 @@ const UnstakePanel: FC = () => {
     const [inputNum, setInputNum] = useState<number | undefined>(undefined);
     const [isEnough, setIsEnough] = useState(false);
 
-    const exitContract = getExitQueueContract();
+    const exitContract = useExitQueueContract();
+    const depositContract = useDepositContract();
 
     const get_user_staked_tron = () => {
         return user_info.balance_root_token.mul(token_price).div(BigNumber.from(10).pow(18))
@@ -64,7 +65,7 @@ const UnstakePanel: FC = () => {
         })
     }, 1000);
 
-    const depositContract = getDepositContract();
+
 
     const withDrawExe = async (bigNumStr: string) => {
 

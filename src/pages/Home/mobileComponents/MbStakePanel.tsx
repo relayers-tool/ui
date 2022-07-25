@@ -4,7 +4,7 @@ import {useWeb3React} from "@web3-react/core";
 import {BigNumber,} from "ethers";
 import useIntl from "../../../utils/useIntl";
 import {StoreContext} from "../../../hooks";
-import {addressBook, getDepositContract,  SendWidthSign} from "../../../Web3";
+import {addressBook, useDepositContract,  SendWidthSign} from "../../../Web3";
 import {formatUnits, toTokenDecimals} from "../../../utils/common";
 import HelpIcon from "../../icons/HelpIcon";
 import TorndoDialog from "../../components/TorndoDialog/TorndoDialog";
@@ -48,7 +48,7 @@ const MbStakePanel: FC = () => {
 
         setShowWait(true);
         setStaking(true);
-        const GET_DEP_CONTRACT = getDepositContract();
+        const GET_DEP_CONTRACT = useDepositContract();
 
         const res: any = await SendWidthSign(
             GET_DEP_CONTRACT,

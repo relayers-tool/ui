@@ -2,7 +2,7 @@ import React, {FC, useContext, useState} from 'react'
 import {Button, InputNumber, message, Tooltip} from 'antd'
 import HelpIcon from "../icons/HelpIcon";
 import useIntl from "../../utils/useIntl";
-import {addressBook, getDepositContract,  SendWidthSign} from "../../Web3";
+import {addressBook, useDepositContract,  SendWidthSign} from "../../Web3";
 import {useWeb3React} from "@web3-react/core";
 
 import TorndoDialog from "../components/TorndoDialog/TorndoDialog";
@@ -22,7 +22,7 @@ const PersonalCard: FC = () => {
     const [inputNum, setInputNum] = useState<number | undefined>(undefined);
 
     const {account} = useWeb3React();
-
+    const depositContract = useDepositContract();
 
 
     const fillMax = () => {
@@ -47,7 +47,7 @@ const PersonalCard: FC = () => {
 
         setShowWait(true);
         setStaking(true);
-        const depositContract = getDepositContract();
+
         const res: any = await SendWidthSign(
             depositContract,
             (account as string),
