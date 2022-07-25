@@ -22,6 +22,7 @@ const UnstakePanel: FC = () => {
     const [inputNum, setInputNum] = useState<number | undefined>(undefined);
     const [isEnough, setIsEnough] = useState(false);
 
+    const exitContract = getExitQueueContract();
 
     const get_user_staked_tron = () => {
         return user_info.balance_root_token.mul(token_price).div(BigNumber.from(10).pow(18))
@@ -47,7 +48,7 @@ const UnstakePanel: FC = () => {
 
     useEffect(() => {
         queryIsEnough(inputNum || 0);
-    }, [inputNum])
+    }, [])
 
     const queryIsEnough = _.debounce(async (num = 0) => {
 
@@ -63,11 +64,12 @@ const UnstakePanel: FC = () => {
         })
     }, 1000);
 
+    const depositContract = getDepositContract();
 
     const withDrawExe = async (bigNumStr: string) => {
 
         return new Promise(async resolve => {
-            const depositContract = getDepositContract();
+
             depositContract.methods["withDraw"](bigNumStr)
                 .send({from: account})
                 .on('receipt', (receipt: any) => {
@@ -114,7 +116,7 @@ const UnstakePanel: FC = () => {
     const addQueueExe = async (bigNumStr: string) => {
 
         return new Promise(async resolve => {
-            const exitContract = getExitQueueContract();
+
             exitContract.methods["addQueue"](bigNumStr)
                 .send({from: account})
                 .on('receipt', (receipt: any) => {
@@ -144,18 +146,22 @@ const UnstakePanel: FC = () => {
     const addQueue = async () => {
 
         setUnSatking(true);
-        let input = torn2rootToken(inputNum || 0)
-        if (user_info.balance_root_token.lt(input)) {
-            input = user_info.balance_root_token;
+        try {
+            let input = torn2rootToken(inputNum || 0)
+            if (user_info.balance_root_token.lt(input)) {
+                input = user_info.balance_root_token;
+            }
+
+            const res: any = await addQueueExe(input.toString());
+
+            if (res.messageCode === 200) {
+                message.success(intl('message.unstake.success'));
+                setInputNum(undefined);
+            }
+        } finally {
+            setUnSatking(false);
         }
 
-        const res: any = await addQueueExe(input.toString());
-
-        if (res.messageCode === 200) {
-            message.success(intl('message.unstake.success'));
-            setInputNum(undefined);
-        }
-        setUnSatking(false);
         queryInfo();
 
     }
@@ -172,24 +178,29 @@ const UnstakePanel: FC = () => {
         }
 
         setUnSatking(true);
-        await queryIsEnough(inputNum);
+        try {
+            await queryIsEnough(inputNum);
 
-        if (isEnough) {
-            // can unStake
-            await withDrawDep();
-        } else {
-
-            if (exit_queue_info.user_value.eq(0)) {
-                await addQueue();
-            } else if (exit_queue_info.is_prepared) {
-                // need cliam
-                message.warning(intl('message.unstake.cliam'));
+            if (isEnough) {
+                // can unStake
+                await withDrawDep();
             } else {
-                // wait or cancel
-                message.warning(intl('message.unstake.wait'));
+
+                if (exit_queue_info.user_value.eq(0)) {
+
+                    await addQueue();
+                } else if (exit_queue_info.is_prepared) {
+                    // need cliam
+                    message.warning(intl('message.unstake.cliam'));
+                } else {
+                    // wait or cancel
+                    message.warning(intl('message.unstake.wait'));
+                }
             }
+        } finally {
+            setUnSatking(false);
         }
-        setUnSatking(false);
+
     }
 
     return (
