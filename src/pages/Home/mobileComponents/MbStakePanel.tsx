@@ -24,6 +24,7 @@ const MbStakePanel: FC = () => {
 
     const [inputNum, setInputNum] = useState<number | undefined>(undefined);
 
+    const depositContract = useDepositContract();
     const {account} = useWeb3React();
 
     const fillMax = () => {
@@ -48,10 +49,10 @@ const MbStakePanel: FC = () => {
 
         setShowWait(true);
         setStaking(true);
-        const GET_DEP_CONTRACT = useDepositContract();
+
 
         const res: any = await SendWidthSign(
-            GET_DEP_CONTRACT,
+            depositContract,
             (account as string),
             addressBook.tornToken,
             addressBook.mDeposit,
