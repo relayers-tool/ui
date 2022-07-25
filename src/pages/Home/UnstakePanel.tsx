@@ -64,7 +64,7 @@ const UnstakePanel: FC = () => {
     }, 1000);
 
 
-    const withDraw1 = async (bigNumStr: string) => {
+    const withDrawExe = async (bigNumStr: string) => {
 
         return new Promise(async resolve => {
             const depositContract = getDepositContract();
@@ -79,9 +79,12 @@ const UnstakePanel: FC = () => {
                 })
                 .on('rejected', (res: any) => {
                     console.warn("rejected:", res);
+                    resolve({
+                        messageCode: 300,
+                        data: res
+                    })
                 })
                 .on('error', (err: any) => {
-                    console.error("==e==", err);
                     message.error(err.message || 'error');
                     resolve({
                         messageCode: 300,
@@ -92,14 +95,13 @@ const UnstakePanel: FC = () => {
     }
 
     const withDrawDep = async () => {
-
         setUnSatking(true);
         let input = torn2rootToken(inputNum || 0)
         if (user_info.balance_root_token.lt(input)) {
             input = user_info.balance_root_token;
         }
 
-        const res: any = await withDraw1(input.toString());
+        const res: any = await withDrawExe(input.toString());
 
         if (res.messageCode === 200) {
             message.success(intl('message.unstake.success'));
@@ -109,7 +111,7 @@ const UnstakePanel: FC = () => {
         queryInfo();
     }
 
-    const addQueue1 = async (bigNumStr: string) => {
+    const addQueueExe = async (bigNumStr: string) => {
 
         return new Promise(async resolve => {
             const exitContract = getExitQueueContract();
@@ -123,6 +125,10 @@ const UnstakePanel: FC = () => {
                 })
                 .on('rejected', (res: any) => {
                     console.warn("rejected:", res);
+                    resolve({
+                        messageCode: 300,
+                        data: res
+                    })
                 })
                 .on('error', (err: any) => {
                     console.error("==e==", err);
@@ -143,7 +149,7 @@ const UnstakePanel: FC = () => {
             input = user_info.balance_root_token;
         }
 
-        const res: any = await addQueue1(input.toString());
+        const res: any = await addQueueExe(input.toString());
 
         if (res.messageCode === 200) {
             message.success(intl('message.unstake.success'));
@@ -172,7 +178,6 @@ const UnstakePanel: FC = () => {
             // can unStake
             await withDrawDep();
         } else {
-
 
             if (exit_queue_info.user_value.eq(0)) {
                 await addQueue();
