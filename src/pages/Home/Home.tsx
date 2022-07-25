@@ -30,7 +30,7 @@ const Home: FC = () => {
     const [showDrawer1, setShowDrawer1] = useState(false);
     const [showDrawer2, setShowDrawer2] = useState(false);
 
-    const {isMobile} = useContext(StoreContext);
+    const {isMobile,profit_ratio,Un_paid_usdt} = useContext(StoreContext);
     const {
         user_info,
         queryInfo,
@@ -123,13 +123,12 @@ const Home: FC = () => {
                                 visible={showDrawer1}
                                 closable={false}
                         >
-                            <div className='mbd_title'>Your Balance</div>
-                            <div className='mbd_text'>{formatUnits(user_info.balance_of_torn)} TORN</div>
-
                             <div className='mbd_title'>{intl('stake.personal3', 'Your Staked')}</div>
-                            <div
-                                className='mbd_text'>{formatUnits(user_info.balance_root_token.mul(token_price).div(BigNumber.from(10).pow(18)))} TORN
-                            </div>
+                            <div className='mbd_text'>{ formatUnits(user_info.balance_root_token.mul(token_price).div(BigNumber.from(10).pow(18))) } TORN</div>
+
+                            <div className='mbd_title'>{intl('stake.personal2', 'Your Earned')}</div>
+                            <div className='mbd_text'>{ formatUnits(user_info.balance_of_earned) } TORN</div>
+
 
                             <div className='mbd_title'>{intl('stake.personal4', 'Your Queue Amount')}</div>
                             <div className='mbd_text'>
@@ -174,20 +173,22 @@ const Home: FC = () => {
                             <div className='mbd_title'>{intl('stake.relay2', 'Total Staked')}</div>
                             <div className='mbd_text'>{formatUnits(totalStakedTorn)} TORN</div>
 
+                            <div className='mbd_title'>{intl('stake.relay6', 'Total In Relayers')}</div>
+                            <div className='mbd_text'>{formatUnits(relayerTotal)} TORN</div>
+
+
+                            <div className='mbd_title'>{intl('stake.relay7', 'Rewards hasn\'t paid')}</div>
+                            <div className='mbd_text'>{/*dateStr*/"$ "+formatUnits(Un_paid_usdt,6) }</div>
+
                             <div className='mbd_title'>{intl('stake.relay3', 'Total Burned')}</div>
                             <div className='mbd_text'>----- TORN</div>
 
-                            <div className='mbd_title'>Total Reward Distributed</div>
-                            <div className='mbd_text'>----- TORN</div>
+                            <div className='mbd_title'>{intl('stake.relay4', 'Reward Fee')}</div>
+                            <div className='mbd_text'>{ (profit_ratio.toNumber()/1000).toFixed(3) } %</div>
 
                             <div className='mbd_title'>{intl('stake.relay5', 'APR(7 days)')}</div>
                             <div className='mbd_text'>--- %</div>
 
-                            <div className='mbd_title'>{intl('stake.relay6', 'Total Relayer')}</div>
-                            <div className='mbd_text'>{formatUnits(relayerTotal)}</div>
-
-                            {/*<div className='mbd_title'>Last relayed on</div>*/}
-                            {/*<div className='mbd_text'>2022-05-15 13:25</div>*/}
 
                             <div className='mbd_title'>{intl('stake.relay8', 'Total queue amount')}</div>
                             <div
