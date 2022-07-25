@@ -11,11 +11,12 @@ import TorndoDialog from "../../components/TorndoDialog/TorndoDialog";
 import QuotesIcon from "../../icons/QuotesIcon";
 import {PanelContext} from "../hooks";
 import PersonIcon from "../../icons/PersonIcon";
+import LoadingIcon from "../../icons/LoadingIcon";
 
 /* eslint-disable */
 const MbStakePanel: FC = () => {
     const intl = useIntl();
-    const {user_info, queryInfo} = useContext(StoreContext);
+    const {user_info, queryInfo, exit_queue_info} = useContext(StoreContext);
     const {setShowDrawer1, setShowDrawer2} = useContext(PanelContext);
 
     const [show, setShow] = useState(false);
@@ -91,7 +92,12 @@ const MbStakePanel: FC = () => {
                 <div className='mb_usp_main flexcss'>
                     <div className='flexrbc mb_row'>
                         <p className='title'>{intl('stake.personal9', 'Amount to lock')} </p>
-                        <PersonIcon className='icon' onClick={() => setShowDrawer1(true)}/>
+                        {
+                            exit_queue_info.user_value.gt(0)
+                                ? <LoadingIcon  className='icon'
+                                    style={{width: '16px', flexShrink: '0', marginLeft: '5px'}} onClick={() => setShowDrawer1(true)}/>
+                                : <PersonIcon className='icon' onClick={() => setShowDrawer1(true)}/>
+                        }
                     </div>
                     <div className='mb_iput_group flexrsc'>
                         <InputNumber className='mb_st_input'
