@@ -88,7 +88,7 @@ const RelayerPanel:FC<panelInterface> = (props) => {
                                 </div>
                                 <div className="flexrsc rp_card">
                                     <img src={usdcIcon} alt="eth" width={32} style={{marginRight: '20px'}}/>
-                                    USDC: {formatUnits(String(props.info.mUSDC))}
+                                    USDC: {formatUnits(String(props.info.mUSDC),6)}
                                 </div>
                             </div>
                             <div className="flexrsc">

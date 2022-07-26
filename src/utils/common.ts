@@ -7,7 +7,7 @@ export const BIG_TEN = BigNumber.from(0)
 export const formatUnits = (num: BigNumber|string,pre: number = 18) => {
 
     try {
-        return utils.formatUnits(num, pre).replace(/^(.*\..{2}).*$/, "$1");
+        return utils.formatUnits(num, pre).replace(/^(.*\..{3}).*$/, "$1");
     } catch (e) {
         return "0.00"
     }
