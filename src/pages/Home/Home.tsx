@@ -55,11 +55,10 @@ const Home: FC = () => {
     const [showCancel, setShowCancel] = useState(false);
     const {account} = useWeb3React();
     const exitContract = useExitQueueContract();
-    const exitQueueContract = useExitQueueContract();
     const cancelQueue = async () => {
         setShowCancel(true);
 
-        exitQueueContract.methods.cancelQueue()
+        exitContract.methods.cancelQueue()
             .send({from: account})
             .on('receipt', async (receipt: any) => {
                 setShowCancel(false);
