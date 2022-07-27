@@ -98,7 +98,7 @@ const MbRelayerPanel: FC<panelInterface> = (props) => {
                         </div>
                         <div className='mbr_coin flexrsc'>
                           <img src={usdcIcon} alt='usdc'/>
-                          USDC: {formatUnits(String(props.info.mUSDC))}
+                            USDC: {formatUnits(String(props.info.mUSDC),6)}
                         </div>
                         <div className='mbr_coin flexrsc'>
                           <img src={usdtIcon} alt='usdt'/>
@@ -184,7 +184,7 @@ const MbRelayerPanel: FC<panelInterface> = (props) => {
                         </div>
                           <div className='mbr_coin flexrsc'>
                               <img src={ethIcon} alt='dai'/>
-                              WETH: {formatUnits(String(props.info.wethToken_xdai))}
+                              WETH: {formatUnits(String(props.info.mWeth_xdai),18)}
                           </div>
 
                       </div>
