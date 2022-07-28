@@ -14,7 +14,7 @@ import {StoreContext} from "../../hooks";
 const UnstakePanel: FC = () => {
     const intl = useIntl()
     const {account} = useWeb3React();
-    const {token_price, user_info, exit_queue_info, queryInfo} = useContext(StoreContext);
+    const {token_price, user_info, exit_queue_info, queryInfo,setShowConnect} = useContext(StoreContext);
 
     const [show, setShow] = useState(false);
     const [showWait, setShowWait] = useState(false);
@@ -168,6 +168,12 @@ const UnstakePanel: FC = () => {
     }
 
     const doUnStake = async () => {
+
+        if(_.isEmpty(account)){
+            setShowConnect(true);
+            return;
+        }
+
         if (!inputNum) {
             message.warning(intl('stake.need.fill'))
             return;

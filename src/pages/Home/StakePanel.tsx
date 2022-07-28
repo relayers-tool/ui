@@ -3,17 +3,17 @@ import {Button, InputNumber, message, Tooltip} from 'antd'
 import HelpIcon from "../icons/HelpIcon";
 import useIntl from "../../utils/useIntl";
 import {addressBook, useDepositContract,  SendWidthSign} from "../../Web3";
-import {useWeb3React} from "@web3-react/core";
-
 import TorndoDialog from "../components/TorndoDialog/TorndoDialog";
 import {formatUnits, toTokenDecimals} from "../../utils/common";
 import {BigNumber,} from "ethers";
 import {StoreContext} from "../../hooks";
+import useAccount from "../../Web3/methods";
+import _ from "lodash";
 
 /* eslint-disable */
 const PersonalCard: FC = () => {
     const intl = useIntl();
-    const {user_info, queryInfo} = useContext(StoreContext);
+    const {user_info, queryInfo,setShowConnect} = useContext(StoreContext);
 
     const [show, setShow] = useState(false);
     const [showWait, setShowWait] = useState(false);
@@ -21,7 +21,7 @@ const PersonalCard: FC = () => {
 
     const [inputNum, setInputNum] = useState<number | undefined>(undefined);
 
-    const {account} = useWeb3React();
+    const {account} = useAccount();
     const depositContract = useDepositContract();
 
 
@@ -34,6 +34,11 @@ const PersonalCard: FC = () => {
     }
 
     const doStake = async () => {
+
+        if(_.isEmpty(account)){
+            setShowConnect(true);
+            return;
+        }
 
         if (!inputNum) {
             message.warning(intl('stake.need.fill'))
