@@ -2,11 +2,9 @@ import {createContext} from "react";
 import {BigNumber} from "ethers";
 
 export interface StoreInterface {
-    isMobile: Boolean,
-
     showConnect :boolean,
     setShowConnect:any,
-
+    isMobile: Boolean,
     publicInfo: any,
     eventStatus: any,
     setEventStatus: any,

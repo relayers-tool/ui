@@ -29,7 +29,6 @@ import {ChainId, getWeb3, multicallClient} from "@chainstarter/multicall-client.
 import {BigNumber} from "ethers";
 import { StringtoTokenDecimals} from "./utils/common";
 import {useWeb3React} from "@web3-react/core";
-import useAccount from "./Web3/methods";
 
 
 const App: FC = () => {
@@ -65,7 +64,7 @@ const App: FC = () => {
     const [EthInfo, setEthInfo] = useState<any[]>([]);
     const [FeeInfo, setFeeInfo] = useState<any[]>([]);
 
-    const {account} = useAccount()
+    const {account} = useWeb3React()
 
     const eth_web3 = getWeb3(ChainId.ETH);
     const bsc_web3 = getWeb3(ChainId.BSC);
@@ -79,6 +78,7 @@ const App: FC = () => {
         querySysInfo();
     }
     let woker_map = new Map();
+    woker_map.set("0xa0109274F53609f6Be97ec5f3052C659AB80f012", "0x155301c59ff55C74cc921dA6745C86390ED13424");
 
     const query_all_usdt = async () => {
 
@@ -394,8 +394,8 @@ const App: FC = () => {
     return (
         <HashRouter>
             <StoreContext.Provider value={{
-                showConnect, setShowConnect,
                 isMobile,
+                showConnect, setShowConnect,
                 publicInfo,
                 setPublicInfo,
                 eventStatus,
