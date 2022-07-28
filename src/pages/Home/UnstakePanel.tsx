@@ -35,8 +35,8 @@ const UnstakePanel: FC = () => {
     }
 
     const fillMax = () => {
-        queryIsEnough(Number(formatUnits(get_user_staked_tron())) || 0);
         setInputNum(Number(formatUnits(get_user_staked_tron())) || 0);
+        queryIsEnough(Number(formatUnits(get_user_staked_tron())) || 0);
     }
 
 
@@ -52,18 +52,15 @@ const UnstakePanel: FC = () => {
     }, [])
 
     const queryIsEnough = _.debounce(async (num = 0) => {
-
         const calls = [
-
             (mDeposit as any).isBalanceEnough(torn2rootToken(num || 0)),
-
         ];
-        multicallClient(calls).then(res => {
+       let res = await multicallClient(calls);
+       const eStatus = res[0][0] ? res[0][1] : false
+       setIsEnough(eStatus);
+       return eStatus;
 
-            const eStatus = res[0][0] ? res[0][1] : false
-            setIsEnough(eStatus);
-        })
-    }, 1000);
+    }, 500);
 
 
 
@@ -186,15 +183,12 @@ const UnstakePanel: FC = () => {
 
         setUnSatking(true);
         try {
-            await queryIsEnough(inputNum);
-
             if (isEnough) {
                 // can unStake
                 await withDrawDep();
             } else {
 
                 if (exit_queue_info.user_value.eq(0)) {
-
                     await addQueue();
                 } else if (exit_queue_info.is_prepared) {
                     // need cliam

@@ -1,9 +1,7 @@
 import {AbiItem} from 'web3-utils'
 import React, {FC} from "react";
-import {Button, message} from "antd";
-import {connectorLocalStorageKey} from "../services/constants";
-import useAuth from "./methods/useAuth";
-import useAccount from "./methods";
+import { message} from "antd";
+
 import Web3 from 'web3'
 import {useWeb3React} from "@web3-react/core";
 import {
@@ -15,11 +13,7 @@ import {
     RelayerRegistry_ABI,
     RootDb_ABI
 } from "../services/constants/abis/ABI";
-
-
-import useIntl from "../utils/useIntl";
 import {ChainId, Contract} from "@chainstarter/multicall-client.js";
-import {toTokenDecimals} from "../utils/common";
 import {signERC2612Permit} from 'eth-permit'
 
 export interface Address {
@@ -31,10 +25,9 @@ export interface Address {
 export let web3Provider: any
 export const useWeb3 = () => {
     const {library} = useWeb3React()
-
-    const provider = library?.provider || web3Provider
+    web3Provider = library?.provider || null;
     // return new Web3(String(process.env.REACT_APP_ETH_RPC))
-    return new Web3(provider)
+    return new Web3(web3Provider)
 }
 
 export const addressBook = {
