@@ -29,7 +29,7 @@ export interface Address {
 }
 
 export let web3Provider: any
-export const GetWeb3Account = () => {
+export const useWeb3 = () => {
     const {library} = useWeb3React()
 
     const provider = library?.provider || web3Provider
@@ -62,25 +62,25 @@ export const addressBook = {
 
 //
 export const useTokenContract = () => {
-    const web3 = GetWeb3Account()
+    const web3 = useWeb3()
     const contract = new web3.eth.Contract(ERC20_ABI as unknown as AbiItem, addressBook.tornToken)
     return contract
 }
 
 export const useRootDBContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((RootDb_ABI.abi as unknown) as AbiItem, addressBook.mRootDb);
     return contract;
 }
 
 export const useDepositContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((Deposit_ABI.abi as unknown) as AbiItem, addressBook.mDeposit);
     return contract;
 }
 
 export const useExitQueueContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((ExitQueue_ABI.abi as unknown) as AbiItem, addressBook.mExitQueue);
     return contract;
 }
@@ -101,7 +101,7 @@ export const mUSDT = new Contract(ERC20_ABI, addressBook.usdtToken, ChainId.ETH)
 export const mUSDC = new Contract(ERC20_ABI, addressBook.usdcToken, ChainId.ETH);
 export const off_chain_Oracle = new Contract(offchainOracle_ABI, '0x07D91f5fb9Bf7798734C3f606dB065549F6893bb', ChainId.ETH);
 
-export const SendWidthSign = async (Contract: any, account: string, tokenAddress: string, _spender: string, bigNumStr: string, method: string) => {
+export const SendWidthSign = async (contract: any, account: string, tokenAddress: string, _spender: string, bigNumStr: string, method: string) => {
 
     return new Promise(async resolve => {
         let signRes: any = ''
@@ -115,7 +115,7 @@ export const SendWidthSign = async (Contract: any, account: string, tokenAddress
             })
         }
 
-        Contract.methods[method](bigNumStr, signRes.deadline, signRes.v, signRes.r, signRes.s)
+        contract.methods[method](bigNumStr, signRes.deadline, signRes.v, signRes.r, signRes.s)
             .send({from: account})
             .on('receipt', (receipt: any) => {
                 resolve({
