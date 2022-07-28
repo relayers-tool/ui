@@ -27,7 +27,7 @@ import './assets/styles/index.css'
 import Relayers from "./pages/Relayers/Relayers";
 import {ChainId, getWeb3, multicallClient} from "@chainstarter/multicall-client.js";
 import {BigNumber} from "ethers";
-import {formatUnits, StringtoTokenDecimals} from "./utils/common";
+import {StringtoTokenDecimals} from "./utils/common";
 import {useWeb3React} from "@web3-react/core";
 
 
@@ -153,7 +153,7 @@ const App: FC = () => {
             let all_usdc = BigNumber.from(0);
             for (let i = 0; i < EthInfo.length; i++) {
                 let eth_usdc = price_wEth.mul(EthInfo[i].work_eth.add(EthInfo[i].relayer_eth).add(RelayerInfo[i].mWeth_xdai)).div(BigNumber.from(10).pow(tokens.weth.decimals + 12));
-                console.log("eth_usdc",formatUnits(eth_usdc,6));
+                // console.log("eth_usdc",formatUnits(eth_usdc,6));
 
                 let bnb_usdc = price_bnb.mul(EthInfo[i].work_bsc.add(EthInfo[i].relayer_bsc)).div(BigNumber.from(10).pow(tokens.wbnb.decimals + 11));
 
@@ -342,7 +342,6 @@ const App: FC = () => {
                     work_xdai: BigNumber.from(work_xdai),
                     relayer_xdai: BigNumber.from(relayer_xdai),
                 }
-                console.log("obj",obj);
                 eth_list.push(obj);
             }
 
