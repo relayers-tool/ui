@@ -21,6 +21,7 @@ import {useExitQueueContract} from "../../Web3";
 import {useWeb3React} from "@web3-react/core";
 import PersonIcon from "../icons/PersonIcon";
 import QuotesIcon from "../icons/QuotesIcon";
+import useAccount from "../../Web3/methods";
 
 const Home: FC = () => {
     const intl = useIntl();
@@ -53,7 +54,7 @@ const Home: FC = () => {
     }
 
     const [showCancel, setShowCancel] = useState(false);
-    const {account} = useWeb3React();
+    const {account} = useAccount();
     const exitContract = useExitQueueContract();
     const cancelQueue = async () => {
         setShowCancel(true);

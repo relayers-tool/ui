@@ -18,10 +18,11 @@ import CopyIcon from "../../icons/CopyIcon";
 import {isMobile} from "../../../utils/screen";
 import {mbLogo} from "../../icons/icons";
 import {StoreContext} from "../../../hooks";
+import useAccount from "../../../Web3/methods";
 
 const WebHeader = ({children}: { children: React.ReactNode }) => {
 
-    const {account} = useWeb3React()
+    const {account} = useAccount()
     const intl = useIntl()
     const {login, logout} = useAuth();
     const location = useLocation();
@@ -103,7 +104,7 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
                                 {
                                     account
                                         ? <div className="m_wallet_connect"
-                                               onClick={() => setShowAccount(true)}>{`${account.slice(0, 6)}...${account.slice(-4)}`}</div>
+                                               onClick={() => setShowAccount(true)}>{`${String(account).slice(0, 6)}...${String(account).slice(-4)}`}</div>
                                         : <div className="m_wallet_connect" onClick={() => setShowConnect(true)}>Connect
                                             Wallet</div>
                                 }
@@ -140,7 +141,7 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
                                 {
                                     account
                                         ? <div className="wallet_connect"
-                                               onClick={() => setShowAccount(true)}>{`${account.slice(0, 6)}...${account.slice(-4)}`}</div>
+                                               onClick={() => setShowAccount(true)}>{`${String(account).slice(0, 6)}...${String(account).slice(-4)}`}</div>
                                         : <div className="wallet_connect" onClick={() => setShowConnect(true)}>Connect
                                             Wallet</div>
                                 }

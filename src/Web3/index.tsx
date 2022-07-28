@@ -29,10 +29,11 @@ export interface Address {
 }
 
 export let web3Provider: any
-export const GetWeb3Account = () => {
+export const useWeb3 = () => {
     const {library} = useWeb3React()
 
     const provider = library?.provider || web3Provider
+    // return new Web3(String(process.env.REACT_APP_ETH_RPC))
     return new Web3(provider)
 }
 
@@ -62,25 +63,25 @@ export const addressBook = {
 
 //
 export const useTokenContract = () => {
-    const web3 = GetWeb3Account()
+    const web3 = useWeb3()
     const contract = new web3.eth.Contract(ERC20_ABI as unknown as AbiItem, addressBook.tornToken)
     return contract
 }
 
 export const useRootDBContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((RootDb_ABI.abi as unknown) as AbiItem, addressBook.mRootDb);
     return contract;
 }
 
 export const useDepositContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((Deposit_ABI.abi as unknown) as AbiItem, addressBook.mDeposit);
     return contract;
 }
 
 export const useExitQueueContract = () => {
-    const web3 = GetWeb3Account();
+    const web3 = useWeb3();
     const contract = new web3.eth.Contract((ExitQueue_ABI.abi as unknown) as AbiItem, addressBook.mExitQueue);
     return contract;
 }
@@ -138,61 +139,61 @@ export const SendWidthSign = async (Contract: any, account: string, tokenAddress
 }
 
 const Web3Test: FC = () => {
-    const intl = useIntl();
-    const {login} = useAuth();
-    const {account} = useAccount();
-
-    const rootDBContract = useRootDBContract();
-
-
-    const connectWallet = () => {
-        login('injected');
-
-        window.localStorage.setItem(connectorLocalStorageKey, 'injected')
-    }
-
-    const getAcc = () => {
-        console.log(account);
-    }
-
-
-    const depositContract = useDepositContract();
-    const stakeWithApprove = async () => {
-        const res = await signERC2612Permit(web3Provider, addressBook.tornToken, String(account), (addressBook.mDeposit as string), toTokenDecimals(1.2).toString())
-
-        await depositContract.methods
-            .deposit(toTokenDecimals(1.2), res.deadline, res.v, res.r, res.s)
-            .send({from: account})
-            .on('receipt', async (receipt: any) => {
-
-            })
-            .on('error', (err: any) => {
-                console.error("error:", err);
-            });
-    }
-
-    const stakeWithApprove1 = async () => {
-         await SendWidthSign(depositContract, String(account), addressBook.tornToken, addressBook.mDeposit, toTokenDecimals(1.8).toString(), 'deposit');
-    }
-
-    const queryInfo = async () => {
-         await rootDBContract.methods.totalTorn().call();
-    }
+    // const intl = useIntl();
+    // const {login} = useAuth();
+    // const {account} = useAccount();
+    //
+    // const rootDBContract = useRootDBContract();
+    //
+    //
+    // const connectWallet = () => {
+    //     login('injected');
+    //
+    //     window.localStorage.setItem(connectorLocalStorageKey, 'injected')
+    // }
+    //
+    // const getAcc = () => {
+    //     console.log(account);
+    // }
+    //
+    //
+    // const depositContract = useDepositContract();
+    // const stakeWithApprove = async () => {
+    //     const res = await signERC2612Permit(web3Provider, addressBook.tornToken, String(account), (addressBook.mDeposit as string), toTokenDecimals(1.2).toString())
+    //
+    //     await depositContract.methods
+    //         .deposit(toTokenDecimals(1.2), res.deadline, res.v, res.r, res.s)
+    //         .send({from: account})
+    //         .on('receipt', async (receipt: any) => {
+    //
+    //         })
+    //         .on('error', (err: any) => {
+    //             console.error("error:", err);
+    //         });
+    // }
+    //
+    // const stakeWithApprove1 = async () => {
+    //      await SendWidthSign(depositContract, String(account), addressBook.tornToken, addressBook.mDeposit, toTokenDecimals(1.8).toString(), 'deposit');
+    // }
+    //
+    // const queryInfo = async () => {
+    //      await rootDBContract.methods.totalTorn().call();
+    // }
 
     return (
         <div>
-            <h2>Test Page</h2>
-            <p>{account}</p>
-            <p>{intl('tr.header5', 'fsfs')}</p>
-            <Button type='primary' onClick={connectWallet}>Connect</Button>
-            <br/><br/>
-            <Button type='primary' onClick={getAcc}>Get</Button>
-            <br/><br/>
-            <Button type='primary' onClick={() => {
-            }}>Query</Button>
-            <Button type='primary' onClick={queryInfo}>Query Info</Button>
-            <Button type='primary' onClick={stakeWithApprove}>stake</Button>
-            <Button type='primary' onClick={stakeWithApprove1}>stake111</Button>
+            {/*<h2>Test Page</h2>*/}
+            {/*<p>{account}</p>*/}
+            {/*<p>{intl('tr.header5', 'fsfs')}</p>*/}
+            {/*<Button type='primary' onClick={connectWallet}>Connect</Button>*/}
+            {/*<br/><br/>*/}
+            {/*<Button type='primary' onClick={getAcc}>Get</Button>*/}
+            {/*<br/><br/>*/}
+            {/*<Button type='primary' onClick={() => {*/}
+            {/*}}>Query</Button>*/}
+            {/*<Button type='primary' onClick={queryInfo}>Query Info</Button>*/}
+            {/*<Button type='primary' onClick={stakeWithApprove}>stake</Button>*/}
+            {/*<Button type='primary' onClick={stakeWithApprove1}>stake111</Button>*/}
         </div>
     )
 }

@@ -42,7 +42,7 @@ const App: FC = () => {
     const [RelayerInfo, setRelayerInfo] = useState<any[]>([]);
     const [profit_ratio, setprofit_ratio] = useState(BigNumber.from(0));
     const [Un_paid_usdt, setUn_paid_usdt] = useState(BigNumber.from(0));
-    const [showConnect, setShowConnect] = useState(false);
+    const [showConnect, setShowConnect] = useState(true);
 
     const [exit_queue_info, set_exit_queue_info] = useState({
         exit_queue_torn: BigNumber.from(0),
