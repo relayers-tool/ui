@@ -27,7 +27,7 @@ import './assets/styles/index.css'
 import Relayers from "./pages/Relayers/Relayers";
 import {ChainId, getWeb3, multicallClient} from "@chainstarter/multicall-client.js";
 import {BigNumber} from "ethers";
-import { StringtoTokenDecimals} from "./utils/common";
+import {formatUnits, StringtoTokenDecimals} from "./utils/common";
 import {useWeb3React} from "@web3-react/core";
 
 
@@ -122,7 +122,7 @@ const App: FC = () => {
         const calls = [
             /*0*/ (off_chain_Oracle as any).getRate(addressBook.cDaiToken, addressBook.usdtToken, true),
             /*1*/ (off_chain_Oracle as any).getRate(addressBook.wBtcToken, addressBook.usdtToken, false),
-            /*2*/ (off_chain_Oracle as any).getRate(addressBook.wBNB, addressBook.usdtToken, false),
+            /*2*/ (off_chain_Oracle as any).getRate(addressBook.wBNB, addressBook.usdcToken, false),
             /*3*/ (off_chain_Oracle as any).getRate(addressBook.wMatic, addressBook.usdtToken, false),
             /*4*/ (off_chain_Oracle as any).getRate(addressBook.wethToken, addressBook.usdtToken, false),
         ]
@@ -153,10 +153,23 @@ const App: FC = () => {
             let all_usdc = BigNumber.from(0);
             for (let i = 0; i < EthInfo.length; i++) {
                 let eth_usdc = price_wEth.mul(EthInfo[i].work_eth.add(EthInfo[i].relayer_eth).add(RelayerInfo[i].mWeth_xdai)).div(BigNumber.from(10).pow(tokens.weth.decimals + 12));
-                let bnb_usdc = price_bnb.mul(EthInfo[i].work_bsc.add(EthInfo[i].relayer_bsc)).div(BigNumber.from(10).pow(tokens.wbnb.decimals + 12));
+                console.log("eth_usdc",formatUnits(eth_usdc,6));
+
+                let bnb_usdc = price_bnb.mul(EthInfo[i].work_bsc.add(EthInfo[i].relayer_bsc)).div(BigNumber.from(10).pow(tokens.wbnb.decimals + 11));
+
+
+                // console.log("bnb",formatUnits(EthInfo[i].work_bsc.add(EthInfo[i].relayer_bsc),18));
+                // console.log("bnb_usdc",formatUnits(bnb_usdc,6));
+
                 let matic_usdc = price_wmatic.mul(EthInfo[i].work_matic.add(EthInfo[i].relayer_matic)).div(BigNumber.from(10).pow(tokens.wmatic.decimals + 12));
+                // console.log("matic_usdc",formatUnits(matic_usdc,6));
+
                 let cdai_usdc = price_cdai.mul(RelayerInfo[i].mcDai).div(BigNumber.from(10).pow(tokens.cdai.decimals + 12));
+                // console.log("cdai_usdc",formatUnits(cdai_usdc,6));
+
                 let btc_usdc = price_btc.mul(RelayerInfo[i].mWbtc).div(BigNumber.from(10).pow(tokens.wbtc.decimals + 12));
+                // console.log("btc_usdc",formatUnits(btc_usdc,6));
+
                 all_usdc = all_usdc.add(eth_usdc.add(bnb_usdc).add(matic_usdc).add(cdai_usdc).add(btc_usdc).add(RelayerInfo[i].mUSDC).add(RelayerInfo[i].mUSDT)
                     .add(RelayerInfo[i].mDai.add(EthInfo[i].work_xdai).add(EthInfo[i].relayer_xdai).div(10 ** 12)));
             }
@@ -316,7 +329,7 @@ const App: FC = () => {
                     xdai_web3.eth.getBalance(woker_map.get(relayersAddressList[i])),
                     xdai_web3.eth.getBalance(relayersAddressList[i])
                 ]);
-                console.log(woker_map.get(relayersAddressList[i]),relayersAddressList[i]);
+
                 let obj = {
                     address: relayersAddressList[i],
                     work_address: woker_map.get(relayersAddressList[i]),
@@ -329,6 +342,7 @@ const App: FC = () => {
                     work_xdai: BigNumber.from(work_xdai),
                     relayer_xdai: BigNumber.from(relayer_xdai),
                 }
+                console.log("obj",obj);
                 eth_list.push(obj);
             }
 
