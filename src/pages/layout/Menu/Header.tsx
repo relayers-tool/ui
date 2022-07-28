@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import './Header.css'
 import {Button,  message} from "antd";
 import {useWeb3React} from "@web3-react/core";
@@ -17,6 +17,7 @@ import OutLinkIcon from "../../icons/OutLinkIcon";
 import CopyIcon from "../../icons/CopyIcon";
 import {isMobile} from "../../../utils/screen";
 import {mbLogo} from "../../icons/icons";
+import {StoreContext} from "../../../hooks";
 
 const WebHeader = ({children}: { children: React.ReactNode }) => {
 
@@ -49,7 +50,7 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
     }
 
 
-    const [showConnect, setShowConnect] = useState(false);
+    const {showConnect, setShowConnect} =  useContext(StoreContext);
     const [showAccount, setShowAccount] = useState(false);
     const [showWarn, setShowWarn] = useState(true);
 

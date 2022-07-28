@@ -31,21 +31,7 @@ export interface Address {
 export let web3Provider: any
 export const GetWeb3Account = () => {
     const {library} = useWeb3React()
-    const init = async () => {
-        if (window.ethereum) {
-            web3Provider = window.ethereum;
-            try {
-                await (window.ethereum as any)?.enable();
-            } catch (error) {
-                // console.error("User denied account access")
-            }
-        } else if (window.web3) {
-            web3Provider = window.web3.currentProvider;
-        } else {
 
-        }
-    }
-    init()
     const provider = library?.provider || web3Provider
     return new Web3(provider)
 }
@@ -172,7 +158,7 @@ const Web3Test: FC = () => {
 
     const depositContract = useDepositContract();
     const stakeWithApprove = async () => {
-        const res = await signERC2612Permit(web3Provider, addressBook.tornToken, (account as string), (addressBook.mDeposit as string), toTokenDecimals(1.2).toString())
+        const res = await signERC2612Permit(web3Provider, addressBook.tornToken, String(account), (addressBook.mDeposit as string), toTokenDecimals(1.2).toString())
 
         await depositContract.methods
             .deposit(toTokenDecimals(1.2), res.deadline, res.v, res.r, res.s)
@@ -186,7 +172,7 @@ const Web3Test: FC = () => {
     }
 
     const stakeWithApprove1 = async () => {
-         await SendWidthSign(depositContract, (account as string), addressBook.tornToken, addressBook.mDeposit, toTokenDecimals(1.8).toString(), 'deposit');
+         await SendWidthSign(depositContract, String(account), addressBook.tornToken, addressBook.mDeposit, toTokenDecimals(1.8).toString(), 'deposit');
     }
 
     const queryInfo = async () => {

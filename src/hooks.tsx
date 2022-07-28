@@ -3,6 +3,10 @@ import {BigNumber} from "ethers";
 
 export interface StoreInterface {
     isMobile: Boolean,
+
+    showConnect :boolean,
+    setShowConnect:any,
+
     publicInfo: any,
     eventStatus: any,
     setEventStatus: any,
