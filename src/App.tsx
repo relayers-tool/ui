@@ -27,7 +27,7 @@ import './assets/styles/index.css'
 import Relayers from "./pages/Relayers/Relayers";
 import {ChainId, getWeb3, multicallClient} from "@chainstarter/multicall-client.js";
 import {BigNumber} from "ethers";
-import {StringtoTokenDecimals} from "./utils/common";
+import {formatUnits, StringtoTokenDecimals} from "./utils/common";
 import {useWeb3React} from "@web3-react/core";
 
 
@@ -38,11 +38,21 @@ const App: FC = () => {
     const [relayersAddressList, setRelayersAddressList] = useState<string[]>([]);
     const [relayerTotal, setRelayerTotal] = useState(BigNumber.from(0));
     const [token_price, set_token_price] = useState(BigNumber.from(0));
+
     const [totalStakedTorn, setTotalStakedTorn] = useState(BigNumber.from(0));
     const [RelayerInfo, setRelayerInfo] = useState<any[]>([]);
     const [profit_ratio, setprofit_ratio] = useState(BigNumber.from(0));
     const [Un_paid_usdt, setUn_paid_usdt] = useState(BigNumber.from(0));
     const [showConnect, setShowConnect] = useState(true);
+
+
+    const [price_info, set_price_info] = useState({
+        bnb_price: BigNumber.from(0),
+        matic_price: BigNumber.from(0),
+        torn_price: BigNumber.from(0)
+    });
+
+
 
     const [exit_queue_info, set_exit_queue_info] = useState({
         exit_queue_torn: BigNumber.from(0),
@@ -115,6 +125,11 @@ const App: FC = () => {
                 address: addressBook.wethToken,
                 decimals: 18,
                 name: "weth"
+            },
+            torn: {
+                address: addressBook.tornToken,
+                decimals: 18,
+                name: "torn"
             }
         }
 
@@ -125,6 +140,7 @@ const App: FC = () => {
             /*2*/ (off_chain_Oracle as any).getRate(addressBook.wBNB, addressBook.usdcToken, false),
             /*3*/ (off_chain_Oracle as any).getRate(addressBook.wMatic, addressBook.usdtToken, false),
             /*4*/ (off_chain_Oracle as any).getRate(addressBook.wethToken, addressBook.usdtToken, false),
+            /*5*/ (off_chain_Oracle as any).getRate( addressBook.usdtToken,addressBook.tornToken, false),
         ]
 
         multicallClient(calls).then(res => {
@@ -133,6 +149,7 @@ const App: FC = () => {
             let wBNB = BigNumber.from(res[2][0] ? res[2][1] : 0);
             let wMatic = BigNumber.from(res[3][0] ? res[3][1] : 0);
             let wEth = BigNumber.from(res[4][0] ? res[4][1] : 0);
+            let torn = BigNumber.from(res[5][0] ? res[5][1] : 0);
 
             const numerator = BigNumber.from(10).pow(tokens.cdai.decimals);
             const denominator = BigNumber.from(10).pow(tokens.usdt.decimals); // eth decimals
@@ -144,8 +161,18 @@ const App: FC = () => {
             const numerator_bnb = BigNumber.from(10).pow(tokens.wbnb.decimals);
             const price_bnb = BigNumber.from(wBNB).mul(numerator_bnb).div(denominator);
 
+            const numerator_torn = BigNumber.from(10).pow(tokens.usdt.decimals);
+            const price_torn_ = BigNumber.from(torn).mul(numerator_torn).div(denominator);
+
+
             const numerator_wMatic = BigNumber.from(10).pow(tokens.wmatic.decimals);
             const price_wmatic = BigNumber.from(wMatic).mul(numerator_wMatic).div(denominator);
+
+            set_price_info({
+                bnb_price: price_bnb,
+                matic_price: price_wmatic,
+                torn_price: price_torn_,
+            });
 
             const numerator_wEth = BigNumber.from(10).pow(tokens.weth.decimals);
             const price_wEth = BigNumber.from(wEth).mul(numerator_wEth).div(denominator);
@@ -231,6 +258,36 @@ const App: FC = () => {
             list.push(obj);
         }
         setRelayerInfo(list)
+    }
+    const queryApy =async () => {
+        try {
+            let apy_obj = await fetch(String(process.env.REACT_APP_DUNE_DATA))
+            let profit = await apy_obj.json();
+
+            console.log("profit", profit);
+            let eth_arr: any[] = profit.eth.data.get_result_by_result_id;
+            let bsc_arr: any[] = profit.bsc.data.get_result_by_result_id;
+            let matic_arr: any[] = profit.matic.data.get_result_by_result_id;
+            let burn_torn: BigNumber = BigNumber.from(0);
+            let fee_torn: BigNumber = BigNumber.from(0);
+            let bsc_fee_torn: BigNumber= BigNumber.from(0);
+            let matic_fee_torn: BigNumber= BigNumber.from(0);
+            // for (let i = 1; i < 7 + 1; i++) {
+            //     burn_torn = burn_torn.add(StringtoTokenDecimals(eth_arr[i].data.burned_torn)).add(StringtoTokenDecimals(eth_arr[i].data.tx_gas_torn)).add(StringtoTokenDecimals(eth_arr[i].data.send_torn));
+            //     fee_torn = fee_torn.add(StringtoTokenDecimals(eth_arr[i].data.fee_torn));
+            //     bsc_fee_torn = StringtoTokenDecimals(bsc_arr[i].data.fee_usd).sub(StringtoTokenDecimals(bsc_arr[i].data.tx_gas_usd)).mul(price_info.torn_price).div(BigNumber.from(10).pow(12+18));
+            //     matic_fee_torn = StringtoTokenDecimals(matic_arr[i].data.fee_usd).sub(StringtoTokenDecimals(matic_arr[i].data.tx_gas_usd)).mul(price_info.torn_price).div(BigNumber.from(10).pow(12+18));
+            //     fee_torn = fee_torn.add(bsc_fee_torn).add(matic_fee_torn);
+            // }
+
+            console.log("bsc_fee_torn", formatUnits(bsc_fee_torn));
+            console.log("matic_fee_torn", formatUnits(matic_fee_torn));
+            console.log("fee_torn", formatUnits(fee_torn));
+        } catch (e) {
+            console.error(e);
+
+        }
+
     }
 
     const queryFee = async () => {
@@ -378,6 +435,11 @@ const App: FC = () => {
             setLoading(false)
         }
     }
+
+
+    useEffect(() => {
+        queryApy();
+    }, [price_info,]);
 
     useEffect(() => {
         queryAllBalance();
