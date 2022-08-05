@@ -9,7 +9,7 @@ import {StoreContext} from "../../hooks";
 
 const MainView:FC = () => {
   const intl = useIntl()
-  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio} = useContext(StoreContext);
+  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio,apy} = useContext(StoreContext);
 
   const rootToken2Torn = (mun:BigNumber) => {
     if(token_price.eq(0)){
@@ -52,8 +52,8 @@ const MainView:FC = () => {
       </div>
       <div className='rc_row flexrsc'>
         <div className='rc_panel'>
-          <span>{intl('stake.relay5', 'APR(7 days)')}</span>
-          <p>{ "------" }</p>
+          <span>{intl('stake.relay5', 'APY')}</span>
+          <p>{  (Number(100)*Number(apy)).toFixed(2) }%</p>
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay6', 'Total Relayer')} </span>

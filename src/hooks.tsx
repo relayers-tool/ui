@@ -5,6 +5,7 @@ export interface StoreInterface {
     showConnect :boolean,
     setShowConnect:any,
     isMobile: Boolean,
+    apy:Number,
     publicInfo: any,
     eventStatus: any,
     setEventStatus: any,

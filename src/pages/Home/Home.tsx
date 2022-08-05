@@ -18,7 +18,6 @@ import {formatUnits} from "../../utils/common";
 import {BigNumber} from "ethers";
 import LoadingIcon from "../icons/LoadingIcon";
 import {useExitQueueContract} from "../../Web3";
-import {useWeb3React} from "@web3-react/core";
 import PersonIcon from "../icons/PersonIcon";
 import QuotesIcon from "../icons/QuotesIcon";
 import useAccount from "../../Web3/methods";
@@ -31,7 +30,7 @@ const Home: FC = () => {
     const [showDrawer1, setShowDrawer1] = useState(false);
     const [showDrawer2, setShowDrawer2] = useState(false);
 
-    const {isMobile,profit_ratio,Un_paid_usdt} = useContext(StoreContext);
+    const {isMobile, profit_ratio, Un_paid_usdt, apy} = useContext(StoreContext);
     const {
         user_info,
         queryInfo,
@@ -179,16 +178,16 @@ const Home: FC = () => {
 
 
                             <div className='mbd_title'>{intl('stake.relay7', 'Rewards hasn\'t paid')}</div>
-                            <div className='mbd_text'>{/*dateStr*/"$ "+formatUnits(Un_paid_usdt,6) }</div>
+                            <div className='mbd_text'>{/*dateStr*/"$ " + formatUnits(Un_paid_usdt, 6)}</div>
 
                             <div className='mbd_title'>{intl('stake.relay3', 'Total Burned')}</div>
                             <div className='mbd_text'>----- TORN</div>
 
                             <div className='mbd_title'>{intl('stake.relay4', 'Reward Fee')}</div>
-                            <div className='mbd_text'>{ (profit_ratio.toNumber()/1000).toFixed(3) } %</div>
+                            <div className='mbd_text'>{(profit_ratio.toNumber() / 1000).toFixed(3)} %</div>
 
-                            <div className='mbd_title'>{intl('stake.relay5', 'APR(7 days)')}</div>
-                            <div className='mbd_text'>--- %</div>
+                            <div className='mbd_title'>{intl('stake.relay5', 'APY')}</div>
+                            <div className='mbd_text'>{(Number(100) * Number(apy)).toFixed(2)} %</div>
 
 
                             <div className='mbd_title'>{intl('stake.relay8', 'Total queue amount')}</div>

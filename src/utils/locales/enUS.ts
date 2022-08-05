@@ -19,7 +19,7 @@ const locale = {
   'stake.relay2': 'Total Staked',
   'stake.relay3': 'Total Burned',
   'stake.relay4': 'Reward Fee',
-  'stake.relay5': 'APR(7 days)',
+  'stake.relay5': 'APY',
   'stake.relay6': 'Total In Relayers',
   'stake.relay7': 'Rewards hasn\'t paid',
   'stake.relay8': 'Total Queue Amount',
