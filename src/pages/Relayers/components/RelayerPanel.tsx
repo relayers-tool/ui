@@ -42,17 +42,18 @@ const RelayerPanel:FC<panelInterface> = (props) => {
                     relayer007.eth
                 </div>
                 <div className='col'>
-                    <div className='col_title'>{intl('relay.text1', 'Earned')}</div>
-                    <div className='col_text'>--- TORN</div>
+                    <div className='col_title'>{intl('relay.text3', 'Total Staked')}</div>
+                    <div className='col_text'>{formatUnits(String(props.ethInfo.total_staked_torn))}TORN</div>
                 </div>
                 <div className='col'>
-                    <div className='col_title'>{intl('relay.text2', 'TORN Staked')}</div>
+                    <div className='col_title'>{intl('relay.text1', 'Total Burned')}</div>
+                    <div className='col_text'>{formatUnits(String(props.ethInfo.total_burned_torn))} TORN</div>
+                </div>
+                <div className='col'>
+                    <div className='col_title'>{intl('relay.text2', 'TORN Staking')}</div>
                     <div className='col_text'>{formatUnits(String(props.info.relayerBalance))} TORN</div>
                 </div>
-                <div className='col'>
-                    <div className='col_title'>{intl('relay.text3', 'TORN Burned')}</div>
-                    <div className='col_text'>--- TORN</div>
-                </div>
+
                 <div className='col'>
                     <div className='col_title'>{intl('relay.text4', '-------')}
                     </div>

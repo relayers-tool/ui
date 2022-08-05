@@ -84,9 +84,9 @@ const locale = {
   'unstake.cancel': 'Cancel',
   'unstake.claim': 'Claim',
 
-  'relay.text1': 'Earned',
-  'relay.text2': 'TORN Staked',
-  'relay.text3': 'TORN Burned',
+  'relay.text1': 'Total Burned',
+  'relay.text2': 'TORN Staking',
+  'relay.text3': 'Total Staked',
   'relay.text4': '-------',
   'relay.text5': 'View Contract',
 

@@ -46,6 +46,7 @@ const App: FC = () => {
     const [showConnect, setShowConnect] = useState(true);
     const [apy, set_apy] = useState(Number(0));
 
+    const [burned_data, set_burned_data] = useState<any>({});
 
     const [price_info, set_price_info] = useState({
         bnb_price: BigNumber.from(0),
@@ -273,8 +274,10 @@ const App: FC = () => {
 
 
             let {eth, bsc, matic} = profit;
+            let total_burned_1 = profit.total_burned;
             let total_torn = relayerTotal;
-
+            set_burned_data(total_burned_1.data.get_result_by_result_id[0].data);
+            console.log("total_burned_1.data.get_result_by_result_id[0].data",total_burned_1.data.get_result_by_result_id[0].data)
 
 
             const comparedate = (time:string) => {
@@ -434,9 +437,12 @@ const App: FC = () => {
                     work_matic: BigNumber.from(work_matic),
                     work_xdai: BigNumber.from(work_xdai),
                     relayer_xdai: BigNumber.from(relayer_xdai),
+                     total_burned_torn:StringtoTokenDecimals(burned_data.total_burned_torn),// current only one relayer
+                     total_staked_torn:StringtoTokenDecimals(burned_data.total_staked_torn),// current only one relayer
                 }
                 eth_list.push(obj);
             }
+            console.log("burned_data",burned_data);
 
             setEthInfo(eth_list);
         } catch (e) {

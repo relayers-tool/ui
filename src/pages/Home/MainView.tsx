@@ -9,7 +9,7 @@ import {StoreContext} from "../../hooks";
 
 const MainView:FC = () => {
   const intl = useIntl()
-  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio,apy} = useContext(StoreContext);
+  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio,apy,EthInfo} = useContext(StoreContext);
 
   const rootToken2Torn = (mun:BigNumber) => {
     if(token_price.eq(0)){
@@ -37,7 +37,7 @@ const MainView:FC = () => {
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay3', 'Total Burned')}</span>
-          <p>{ "-----" } TORN</p>
+          <p> {formatUnits(EthInfo[0].total_burned_torn)} TORN TORN</p>
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay4', 'Reward Fee')}

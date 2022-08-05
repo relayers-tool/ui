@@ -30,7 +30,7 @@ const Home: FC = () => {
     const [showDrawer1, setShowDrawer1] = useState(false);
     const [showDrawer2, setShowDrawer2] = useState(false);
 
-    const {isMobile, profit_ratio, Un_paid_usdt, apy} = useContext(StoreContext);
+    const {isMobile, profit_ratio, Un_paid_usdt, apy ,EthInfo} = useContext(StoreContext);
     const {
         user_info,
         queryInfo,
@@ -181,7 +181,7 @@ const Home: FC = () => {
                             <div className='mbd_text'>{/*dateStr*/"$ " + formatUnits(Un_paid_usdt, 6)}</div>
 
                             <div className='mbd_title'>{intl('stake.relay3', 'Total Burned')}</div>
-                            <div className='mbd_text'>----- TORN</div>
+                            <div className='mbd_text'> {formatUnits(EthInfo[0].total_burned_torn)} TORN</div>
 
                             <div className='mbd_title'>{intl('stake.relay4', 'Reward Fee')}</div>
                             <div className='mbd_text'>{(profit_ratio.toNumber() / 1000).toFixed(3)} %</div>
