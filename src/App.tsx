@@ -442,7 +442,6 @@ const App: FC = () => {
                 }
                 eth_list.push(obj);
             }
-            console.log("burned_data",burned_data);
 
             setEthInfo(eth_list);
         } catch (e) {

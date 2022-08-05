@@ -13,6 +13,7 @@ const locale = {
   'tr.header7':'Your Wallet',
   'tr.header8':'GUIDE',
   'tr.header9':'One Tip',
+  'tr.header10':'Stats',
 
 
   'stake.relay1': 'Relayer Overview',

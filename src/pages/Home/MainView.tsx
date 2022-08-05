@@ -37,7 +37,7 @@ const MainView:FC = () => {
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay3', 'Total Burned')}</span>
-          <p> {formatUnits(EthInfo[0].total_burned_torn)} TORN TORN</p>
+          <p> {formatUnits(EthInfo[0].total_burned_torn)} TORN</p>
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay4', 'Reward Fee')}

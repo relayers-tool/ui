@@ -43,7 +43,7 @@ const RelayerPanel:FC<panelInterface> = (props) => {
                 </div>
                 <div className='col'>
                     <div className='col_title'>{intl('relay.text3', 'Total Staked')}</div>
-                    <div className='col_text'>{formatUnits(String(props.ethInfo.total_staked_torn))}TORN</div>
+                    <div className='col_text'>{formatUnits(String(props.ethInfo.total_staked_torn))} TORN</div>
                 </div>
                 <div className='col'>
                     <div className='col_title'>{intl('relay.text1', 'Total Burned')}</div>
