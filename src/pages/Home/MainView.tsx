@@ -9,7 +9,7 @@ import {StoreContext} from "../../hooks";
 
 const MainView:FC = () => {
   const intl = useIntl()
-  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio,apy,EthInfo} = useContext(StoreContext);
+  const { token_price,relayerTotal, totalStakedTorn ,gov_staking_info,exit_queue_info,Un_paid_usdt,profit_ratio,apr,apy,EthInfo} = useContext(StoreContext);
 
   const rootToken2Torn = (mun:BigNumber) => {
     if(token_price.eq(0)){
@@ -36,24 +36,37 @@ const MainView:FC = () => {
           <p>{ formatUnits(totalStakedTorn) } TORN</p>
         </div>
         <div className='rc_panel'>
-          <span>{intl('stake.relay3', 'Total Burned')}</span>
-          <p> {formatUnits(EthInfo[0].total_burned_torn)} TORN</p>
-        </div>
-        <div className='rc_panel'>
-          <span>{intl('stake.relay4', 'Reward Fee')}
-            <Tooltip title={intl('rewardFee.tips')}
+          <span>{intl('stake.relay3', 'APR')}
+            <Tooltip title={intl('apr.tips')}
                      placement="bottomLeft"
             >
                 <HelpIcon style={{marginLeft: '10px'}} />
             </Tooltip>
           </span>
-          <p> { (profit_ratio.toNumber()/1000).toFixed(3) } %</p>
+          <p> {  (Number(100)*Number(apr)).toFixed(2) } %</p>
+        </div>
+        <div className='rc_panel'>
+          <span>{intl('stake.relay5', 'APY')}
+            <Tooltip title={intl('apy.tips')}
+                     placement="bottomLeft"
+            >
+                <HelpIcon style={{marginLeft: '10px'}} />
+            </Tooltip>
+          </span>
+          <p>{  (Number(100)*Number(apy)).toFixed(2) } %</p>
+
         </div>
       </div>
       <div className='rc_row flexrsc'>
         <div className='rc_panel'>
-          <span>{intl('stake.relay5', 'APY')}</span>
-          <p>{  (Number(100)*Number(apy)).toFixed(2) }%</p>
+        <span>{intl('stake.relay4', 'Reward Fee')}
+          <Tooltip title={intl('rewardFee.tips')}
+                   placement="bottomLeft"
+          >
+                <HelpIcon style={{marginLeft: '10px'}} />
+            </Tooltip>
+          </span>
+          <p> { (profit_ratio.toNumber()/1000).toFixed(3) } %</p>
         </div>
         <div className='rc_panel'>
           <span>{intl('stake.relay6', 'Total Relayer')} </span>

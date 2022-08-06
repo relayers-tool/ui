@@ -45,7 +45,7 @@ const App: FC = () => {
     const [Un_paid_usdt, setUn_paid_usdt] = useState(BigNumber.from(0));
     const [showConnect, setShowConnect] = useState(true);
     const [apy, set_apy] = useState(Number(0));
-
+    const [apr, set_apr] = useState(Number(0));
     const [burned_data, set_burned_data] = useState<any>({});
 
     const [price_info, set_price_info] = useState({
@@ -318,7 +318,8 @@ const App: FC = () => {
 
             let profit_all = eth_profit + Number(utils.formatUnits(bsc_matic_fee_torn.mul(1000000).div(total_torn),6));
 
-
+            let apr = profit_all*52;
+            set_apr(apr);
             let apy = (profit_all + 1) ** 52 - 1;
             set_apy(apy);
 
@@ -470,6 +471,7 @@ const App: FC = () => {
     const queryAllBalance = async () => {
         await querySysInfo();
         await queryUserInfo();
+        await queryApy();
         await queryAllEthBalance();
         await queryFee();
         if (relayersAddressList.length > 0) {
@@ -512,6 +514,7 @@ const App: FC = () => {
             <StoreContext.Provider value={{
                 isMobile,
                 apy,
+                apr,
                 showConnect, setShowConnect,
                 publicInfo,
                 setPublicInfo,
