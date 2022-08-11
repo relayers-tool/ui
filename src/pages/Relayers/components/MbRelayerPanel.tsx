@@ -54,8 +54,8 @@ const MbRelayerPanel: FC<panelInterface> = (props) => {
                 <div className='mbrr_row flexrst' onClick={switchExpand}>
 
                     <div className='col'>
-                        <div className='col_title'>{intl('relay.text1', 'Earned')}</div>
-                        <div className='col_text'>--- TORN</div>
+                        <div className='col_title'>{intl('relay.text1', 'Total Burned')}</div>
+                        <div className='col_text'>{formatUnits(String(props.ethInfo.total_burned_torn))}TORN</div>
                     </div>
                     <div className='col'>
                         <div className='col_title'>{intl('relay.text2', 'TORN Staked')}</div>

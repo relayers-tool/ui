@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 module.exports = function override(config, env) {
   //do stuff with the webpack config...
-  config.devtool = false
+  //config.devtool = false
   config.resolve.fallback = {
     url: require.resolve('url'),
     assert: require.resolve('assert'),

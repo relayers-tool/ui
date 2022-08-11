@@ -27,6 +27,10 @@ export const useWeb3 = () => {
     const {library} = useWeb3React()
     web3Provider = library?.provider || null;
     // return new Web3(String(process.env.REACT_APP_ETH_RPC))
+
+
+
+
     return new Web3(web3Provider)
 }
 

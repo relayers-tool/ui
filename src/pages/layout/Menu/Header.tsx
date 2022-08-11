@@ -30,6 +30,9 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
     const toFAQ = () => {
         window.open(process.env.REACT_APP_FAQ_URL)
     }
+    const toStats = () => {
+        window.open("https://dune.com/relayerstool/dashboard")
+    }
     const toGuide = () => {
         window.open(process.env.REACT_APP_GUIDE_URL)
     }
@@ -118,6 +121,8 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
                                       to='/relay'>{intl('tr.header2', 'Relayers')}</Link>
                                 <span className={location.pathname === '/faq' ? 'nav_item active' : 'nav_item'}
                                       onClick={toFAQ}>{intl('tr.header3', 'Doc')}</span>
+                                <span className={location.pathname === '/stats' ? 'nav_item active' : 'nav_item'}
+                                      onClick={toStats}>{intl('tr.header10', 'Stats')}</span>
                             </div>
                             <div className='mb_audit'/>
                         </div>
@@ -135,6 +140,8 @@ const WebHeader = ({children}: { children: React.ReactNode }) => {
                                           to='/relay'>{intl('tr.header2', 'Relayers')}</Link>
                                     <span className={location.pathname === '/faq' ? 'nav_item active' : 'nav_item'}
                                           onClick={toFAQ}>{intl('tr.header3', 'Doc')}</span>
+                                    <span className={location.pathname === '/stats' ? 'nav_item active' : 'nav_item'}
+                                          onClick={toStats}>{intl('tr.header10', 'Stats')}</span>
                                 </div>
                             </div>
                             <div className="r flexrec">

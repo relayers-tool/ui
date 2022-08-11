@@ -14,8 +14,8 @@ export const formatUnits = (num: BigNumber|string,pre: number = 18) => {
 }
 
 
-export function StringtoTokenDecimals(num: string, pre: number = 18):BigNumber {
-    return   utils.parseUnits(num,pre);
+export function StringtoTokenDecimals(num: string|number, pre: number = 18):BigNumber {
+    return   utils.parseUnits(String(num),pre);
 }
 
 export function toTokenDecimals(num: number, pre: number = 18):BigNumber {

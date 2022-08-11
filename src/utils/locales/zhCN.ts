@@ -17,7 +17,7 @@ const locale = {
   'stake.relay2': 'Total Staked',
   'stake.relay3': 'Total Burned',
   'stake.relay4': 'Reward Fee',
-  'stake.relay5': 'APR',
+  'stake.relay5': 'APY',
   'stake.relay6': 'Total Relayer',
   'stake.relay7': 'Rewards hasn\'t paid',
 
@@ -77,9 +77,9 @@ const locale = {
   'unstake': '取消抵押',
 
   'relay.text1': 'Earned',
-  'relay.text2': 'TORN staked',
-  'relay.text3': 'TORN burned',
-  'relay.text4': 'Last relayed on',
+  'relay.text2': 'TORN Staking',
+  'relay.text3': 'Total Staked',
+  'relay.text4': 'Last Relayed on',
   'relay.text5': 'View Contract',
 
   'message.stake.success': '抵押成功',

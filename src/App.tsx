@@ -3,7 +3,7 @@ import {HashRouter, Route, Routes,} from "react-router-dom";
 import {StoreContext} from "./hooks";
 import {isMobile} from "./utils/screen";
 import Home from "./pages/Home/Home";
-import {LoadingOutlined} from '@ant-design/icons'
+import {LoadingOutlined} from '@ant-design/icons';
 
 import 'antd/dist/antd.css'
 import Web3Test, {
@@ -26,8 +26,8 @@ import WebHeader from "./pages/layout/Menu/Header";
 import './assets/styles/index.css'
 import Relayers from "./pages/Relayers/Relayers";
 import {ChainId, getWeb3, multicallClient} from "@chainstarter/multicall-client.js";
-import {BigNumber} from "ethers";
-import {StringtoTokenDecimals} from "./utils/common";
+import {BigNumber, utils} from "ethers";
+import {formatUnits, StringtoTokenDecimals} from "./utils/common";
 import {useWeb3React} from "@web3-react/core";
 
 
@@ -38,11 +38,23 @@ const App: FC = () => {
     const [relayersAddressList, setRelayersAddressList] = useState<string[]>([]);
     const [relayerTotal, setRelayerTotal] = useState(BigNumber.from(0));
     const [token_price, set_token_price] = useState(BigNumber.from(0));
+
     const [totalStakedTorn, setTotalStakedTorn] = useState(BigNumber.from(0));
     const [RelayerInfo, setRelayerInfo] = useState<any[]>([]);
     const [profit_ratio, setprofit_ratio] = useState(BigNumber.from(0));
     const [Un_paid_usdt, setUn_paid_usdt] = useState(BigNumber.from(0));
     const [showConnect, setShowConnect] = useState(true);
+    const [apy, set_apy] = useState(Number(0));
+    const [apr, set_apr] = useState(Number(0));
+    const [burned_data, set_burned_data] = useState<any>({});
+
+    const [price_info, set_price_info] = useState({
+        bnb_price: BigNumber.from(0),
+        matic_price: BigNumber.from(0),
+        torn_price: BigNumber.from(0)
+    });
+
+
 
     const [exit_queue_info, set_exit_queue_info] = useState({
         exit_queue_torn: BigNumber.from(0),
@@ -115,6 +127,11 @@ const App: FC = () => {
                 address: addressBook.wethToken,
                 decimals: 18,
                 name: "weth"
+            },
+            torn: {
+                address: addressBook.tornToken,
+                decimals: 18,
+                name: "torn"
             }
         }
 
@@ -125,6 +142,7 @@ const App: FC = () => {
             /*2*/ (off_chain_Oracle as any).getRate(addressBook.wBNB, addressBook.usdcToken, false),
             /*3*/ (off_chain_Oracle as any).getRate(addressBook.wMatic, addressBook.usdtToken, false),
             /*4*/ (off_chain_Oracle as any).getRate(addressBook.wethToken, addressBook.usdtToken, false),
+            /*5*/ (off_chain_Oracle as any).getRate( addressBook.usdcToken,addressBook.tornToken, false),
         ]
 
         multicallClient(calls).then(res => {
@@ -133,6 +151,7 @@ const App: FC = () => {
             let wBNB = BigNumber.from(res[2][0] ? res[2][1] : 0);
             let wMatic = BigNumber.from(res[3][0] ? res[3][1] : 0);
             let wEth = BigNumber.from(res[4][0] ? res[4][1] : 0);
+            let torn = BigNumber.from(res[5][0] ? res[5][1] : 0);
 
             const numerator = BigNumber.from(10).pow(tokens.cdai.decimals);
             const denominator = BigNumber.from(10).pow(tokens.usdt.decimals); // eth decimals
@@ -144,8 +163,18 @@ const App: FC = () => {
             const numerator_bnb = BigNumber.from(10).pow(tokens.wbnb.decimals);
             const price_bnb = BigNumber.from(wBNB).mul(numerator_bnb).div(denominator);
 
+            const numerator_torn = BigNumber.from(10).pow(tokens.usdt.decimals);
+            const price_torn_ = BigNumber.from(torn).mul(numerator_torn).div(denominator);
+
+
             const numerator_wMatic = BigNumber.from(10).pow(tokens.wmatic.decimals);
             const price_wmatic = BigNumber.from(wMatic).mul(numerator_wMatic).div(denominator);
+
+            set_price_info({
+                bnb_price: price_bnb,
+                matic_price: price_wmatic,
+                torn_price: price_torn_,
+            });
 
             const numerator_wEth = BigNumber.from(10).pow(tokens.weth.decimals);
             const price_wEth = BigNumber.from(wEth).mul(numerator_wEth).div(denominator);
@@ -231,6 +260,74 @@ const App: FC = () => {
             list.push(obj);
         }
         setRelayerInfo(list)
+    }
+    const queryApy = async () => {
+        try {
+
+            if(relayerTotal.eq(0)){
+                console.log('no relayer now');
+                return ;
+            }
+            let apy_obj = await fetch(String(process.env.REACT_APP_DUNE_DATA))
+            let profit = await apy_obj.json();
+
+
+
+            let {eth, bsc, matic} = profit;
+            let total_burned_1 = profit.total_burned;
+            let total_torn = relayerTotal;
+            set_burned_data(total_burned_1.data.get_result_by_result_id[0].data);
+            console.log("total_burned_1.data.get_result_by_result_id[0].data",total_burned_1.data.get_result_by_result_id[0].data)
+
+
+            const comparedate = (time:string) => {
+                let yms:string[] = time.split('T');
+                let input:any = new Date(yms[0]);
+                let now:any = new Date();
+                return Math.abs(now - input) < 8*24*3600*1000 && Math.abs(now - input) > 1*24*3600*1000;
+            }
+
+            const usdt_to_torn = (usd:BigNumber) => {
+                return usd.mul(price_info.torn_price).div(BigNumber.from(10).pow(18));
+            }
+
+            let eth_profit:number = eth.data.get_result_by_result_id.reduce((previousValue: number, currentValue: { data: { day: string; day_rate: any; }; }) => {
+                if(comparedate(currentValue.data.day)){
+                    return previousValue + Number(currentValue.data.day_rate);
+                }
+                else {
+                    return previousValue;
+                }
+            }, 0);
+
+            const get_profit_usdt = (chain:any) => {
+                //@ts-ignore
+                return chain.data.get_result_by_result_id.reduce((previousValue, currentValue) => {
+                    if(comparedate(currentValue.data.day)){
+                        // return previousValue.add(profit_torn(currentValue));
+                        let profit_usd = StringtoTokenDecimals(currentValue.data.fee_usd,6).sub(StringtoTokenDecimals(currentValue.data.tx_gas_usd,6))
+                        return previousValue.add(profit_usd);
+                    }
+                    else {
+                        return previousValue;
+                    }
+                }, BigNumber.from(0));
+            }
+
+            let bsc_matic_fee_torn:BigNumber = usdt_to_torn(get_profit_usdt(bsc).add(get_profit_usdt(matic)));
+
+            let profit_all = eth_profit + Number(utils.formatUnits(bsc_matic_fee_torn.mul(1000000).div(total_torn),6));
+
+            let apr = profit_all*52;
+            set_apr(apr);
+            let apy = (profit_all + 1) ** 52 - 1;
+            set_apy(apy);
+
+        } catch (e) {
+            console.error(e);
+
+        }
+
     }
 
     const queryFee = async () => {
@@ -341,6 +438,8 @@ const App: FC = () => {
                     work_matic: BigNumber.from(work_matic),
                     work_xdai: BigNumber.from(work_xdai),
                     relayer_xdai: BigNumber.from(relayer_xdai),
+                     total_burned_torn:StringtoTokenDecimals(burned_data.total_burned_torn),// current only one relayer
+                     total_staked_torn:StringtoTokenDecimals(burned_data.total_staked_torn),// current only one relayer
                 }
                 eth_list.push(obj);
             }
@@ -372,12 +471,18 @@ const App: FC = () => {
     const queryAllBalance = async () => {
         await querySysInfo();
         await queryUserInfo();
+        await queryApy();
         await queryAllEthBalance();
         await queryFee();
         if (relayersAddressList.length > 0) {
             setLoading(false)
         }
     }
+
+
+    useEffect(() => {
+        queryApy();
+    }, [price_info,relayerTotal]);
 
     useEffect(() => {
         queryAllBalance();
@@ -408,6 +513,8 @@ const App: FC = () => {
         <HashRouter>
             <StoreContext.Provider value={{
                 isMobile,
+                apy,
+                apr,
                 showConnect, setShowConnect,
                 publicInfo,
                 setPublicInfo,
@@ -430,7 +537,7 @@ const App: FC = () => {
                 Un_paid_usdt,
                 setUn_paid_usdt,
                 profit_ratio,
-                setprofit_ratio
+                setprofit_ratio,
 
             }}>
                 <Web3ReactManager>
